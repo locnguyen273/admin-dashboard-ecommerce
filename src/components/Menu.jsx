@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable jsx-a11y/role-supports-aria-props */
 import React, { useState, useContext } from "react";
-import { NavLink, Redirect, Link } from "react-router-dom";
-import { AuthContext } from "../../context/authContext";
+import { NavLink, redirect, Link } from "react-router-dom";
+import { AuthContext } from "../context/authContext";
 
 function Menu() {
   const { user, jwt } = useContext(AuthContext);
@@ -70,6 +69,9 @@ function Menu() {
     // "CompletedOrder",
     // "CancelOrder"
   ]);
+  const handleRedirect = () => {
+    return redirect("/user");
+  }
 
   return (
     <div>
@@ -88,7 +90,7 @@ function Menu() {
                   {" "}
                   <Link
                     className="sidebar-link has-arrow"
-                    href="#"
+                    to=""
                     aria-expanded="false"
                   >
                     <i data-feather="grid" className="feather-icon"></i>
@@ -101,16 +103,9 @@ function Menu() {
                     {menu &&
                       menu.map((item, index) => (
                         <li className="sidebar-item active" key={index}>
-                          {/* {item.permission === user.role ? ( */}
-                          <NavLink
-                            to={"/" + item.item.toLowerCase()}
-                            className="sidebar-link"
-                          >
+                          <NavLink to={"/" + item.item.toLowerCase()} className="sidebar-link">
                             {item.item}
                           </NavLink>
-                          {/* ) : (
-                            <div></div>
-                          )} */}
                         </li>
                       ))}
                   </ul>
@@ -119,9 +114,7 @@ function Menu() {
             </nav>
           </div>
         </aside>
-      ) : (
-        <Redirect to="/" />
-      )}
+      ) : handleRedirect()}
     </div>
   );
 }

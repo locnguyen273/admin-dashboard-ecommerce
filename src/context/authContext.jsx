@@ -1,5 +1,6 @@
-import React, { createContext, useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+/* eslint-disable react/prop-types */
+import { createContext, useState, useEffect } from "react";
+import { redirect } from "react-router-dom";
 import { USER_LOGIN } from "../utils/constant";
 import { getStringLocal, removeLocal } from "../utils/config";
 
@@ -11,19 +12,20 @@ const AuthContextProvider = (props) => {
 
   useEffect(() => {
     const userInfo = JSON.parse(getStringLocal(USER_LOGIN));
-    if(userInfo) {
-    setJWT(userInfo.token);
-    setUser(userInfo);
+    if (Object.keys(userInfo).length > 0) {
+      setJWT(userInfo.token);
+      setUser(userInfo);
+      return redirect("/user");
     } else {
-      <Redirect to="/" />;
+      return redirect("/");
     }
   }, []);
 
   const logOut = () => {
-    removeLocal(USER_LOGIN)
+    removeLocal(USER_LOGIN);
     setJWT();
     setUser();
-    <Redirect to="/" />;
+    return redirect("/");
   };
 
   return (

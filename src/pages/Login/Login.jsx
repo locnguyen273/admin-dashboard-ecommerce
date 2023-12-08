@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useHistory, Redirect } from "react-router-dom";
 import isEmpty from "validator/lib/isEmpty";
 import { useForm } from "react-hook-form";
@@ -7,7 +7,7 @@ import { saveStringLocal } from "../../utils/config";
 import { USER_LOGIN } from "../../utils/constant";
 import { AuthContext } from "../../context/authContext";
 
-function Login(props) {
+function Login() {
   const { jwt, user } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,11 +16,14 @@ function Login(props) {
   let history = useHistory();
 
   useEffect(() => {
-    if (jwt && user && user.role === "admin") {
-      return <Redirect to="/user" />;
-    } else if (jwt && user && user.role === "user") {
-      return <Redirect to="/customer" />;
+    const checkRoleExist = () => {
+      if (jwt && user && user.role === "admin") {
+        return <Redirect to="/user" />;
+      } else if (jwt && user && user.role === "user") {
+        return <Redirect to="/customer" />;
+      }
     }
+    checkRoleExist();
   }, [jwt, user]);
 
   const validateAll = () => {

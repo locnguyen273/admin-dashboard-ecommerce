@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import Logoicon from "../assets/images/logo-icon.png"
 import Logotext from "../assets/images/logo-text.png";
 import Logolight from "../assets/images/logo-light-text.png";
@@ -30,7 +30,7 @@ const Header = () => {
               </div>
               <Link
                 className="topbartoggler d-block d-md-none waves-effect waves-light"
-                to="#"
+                to="/user"
                 data-toggle="collapse"
                 data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent"
@@ -45,7 +45,7 @@ const Header = () => {
                 <li className="nav-item dropdown">
                   <Link
                     className="nav-link dropdown-toggle"
-                    href="#"
+                    to="/user"
                     id="navbarDropdown"
                     role="button"
                     data-toggle="dropdown"
@@ -58,14 +58,14 @@ const Header = () => {
                     className="dropdown-menu"
                     aria-labelledby="navbarDropdown"
                   >
-                    <Link className="dropdown-item" href="#">
+                    <Link className="dropdown-item" to="/user">
                       Action
                     </Link>
-                    <Link className="dropdown-item" href="#">
+                    <Link className="dropdown-item" to="/user">
                       Another action
                     </Link>
                     <div className="dropdown-divider"></div>
-                    <Link className="dropdown-item" href="#">
+                    <Link className="dropdown-item" to="/user">
                       Something else here
                     </Link>
                   </div>
@@ -75,7 +75,7 @@ const Header = () => {
                 <li className="nav-item dropdown">
                   <Link
                     className="nav-link dropdown-toggle"
-                    href="#"
+                    to="/user"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"

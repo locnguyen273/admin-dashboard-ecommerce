@@ -1,32 +1,33 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import queryString from "query-string";
 import isEmpty from "validator/lib/isEmpty";
 import isEmail from "validator/lib/isEmail";
+// import permissionAPI from "../Api/permissionAPI";
 
-import userApi from "../Api/userAPI";
-import permissionAPI from "../Api/permissionAPI";
-
-function CreateUser() {
+function CreateUserCus() {
   const [permission, setPermission] = useState([]);
   const [name, setName] = useState("");
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [permissionChoose, setPermissionChoose] = useState("");
+  const [permissionChoose, setPermissionChoose] = useState(
+    "6087dcb5f269113b3460fce4"
+  );
   const [validationMsg, setValidationMsg] = useState("");
   const { handleSubmit } = useForm();
 
   useEffect(() => {
-    const fetchAllData = async () => {
-      const ps = await permissionAPI.getAPI();
-      setPermission(ps);
-    };
-    fetchAllData();
+    // const fetchAllData = async () => {
+    //   const ps = await permissionAPI.getAPI();
+    //   setPermission(ps);
+    // };
+    // fetchAllData();
   }, []);
 
   const validateAll = () => {
-    // const phongeRegex = /^0(?=.+[0-9]).{9}$/;
+    const phongeRegex = /^0(?=.+[0-9]).{9}$/;
     const nameRegex =
       /^\b[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ ]+.{1}$/;
     const usernameRegex = /^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
@@ -45,9 +46,6 @@ function CreateUser() {
 
     if (isEmpty(password)) {
       msg.password = "Mật khẩu không được để trống";
-    }
-    if (isEmpty(permissionChoose)) {
-      msg.permission = "Vui lòng chọn quyền";
     }
     if (isEmpty(username.trim())) {
       msg.username = "Username không được để trống";
@@ -75,17 +73,16 @@ function CreateUser() {
       permission: permissionChoose,
     };
     const query = "?" + queryString.stringify(user);
-    const response = await userApi.create(query);
+    // const response = await userApi.create(query);
 
-    if (response.msg === "Bạn đã thêm thành công") {
-      window.scrollTo(0, 0);
-      setName("");
-      setUserName("");
-      setEmail("");
-      setPassword("");
-      setPermissionChoose("");
-    }
-    setValidationMsg({ api: response.msg });
+    // if (response.msg === "Bạn đã thêm thành công") {
+    //   window.scrollTo(0, 0);
+    //   setName("");
+    //   setUserName("");
+    //   setEmail("");
+    //   setPassword("");
+    // }
+    // setValidationMsg({ api: response.msg });
   };
 
   return (
@@ -180,28 +177,6 @@ function CreateUser() {
                     </p>
                   </div>
 
-                  <div className="form-group w-50">
-                    <label htmlFor="categories" className="mr-2">
-                      Chọn quyền:
-                    </label>
-                    <select
-                      name="categories"
-                      id="categories"
-                      value={permissionChoose}
-                      onChange={(e) => setPermissionChoose(e.target.value)}
-                    >
-                      <option>Chọn quyền</option>
-                      {permission &&
-                        permission.map((item, index) => (
-                          <option value={item._id} key={index}>
-                            {item.permission}
-                          </option>
-                        ))}
-                    </select>
-                    <p className="form-text text-danger">
-                      {validationMsg.permission}
-                    </p>
-                  </div>
                   <button type="submit" className="btn btn-primary">
                     Create
                   </button>
@@ -219,4 +194,4 @@ function CreateUser() {
   );
 }
 
-export default CreateUser;
+export default CreateUserCus;
