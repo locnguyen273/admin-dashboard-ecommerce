@@ -7,12 +7,12 @@ import orderAPI from '../Api/orderAPI';
 import Pagination from '../Shared/Pagination'
 import Search from '../Shared/Search'
 
-import io from "socket.io-client";
+// import io from "socket.io-client";
 
-const socket = io('http://localhost:8000/', {
-    transports: ['websocket'], jsonp: false
-});
-socket.connect();
+// const socket = io('http://localhost:8000/', {
+//     transports: ['websocket'], jsonp: false
+// });
+// socket.connect();
 
 function ConfirmOrder(props) {
     const [filter, setFilter] = useState({
@@ -52,9 +52,9 @@ function ConfirmOrder(props) {
     useEffect(() => {
 
         //Nhận dữ liệu từ server gửi lên thông qua socket với key receive_order
-        socket.on('receive_order', (data) => {
-            setNote(data)
-        })
+        // socket.on('receive_order', (data) => {
+        //     setNote(data)
+        // })
 
     }, [])
 
