@@ -7,10 +7,10 @@ import orderAPI from '../Api/orderAPI';
 import Pagination from '../Shared/Pagination'
 import Search from '../Shared/Search'
 
-const socket = io('http://localhost:8000/', {
-    transports: ['websocket'], jsonp: false
-});
-socket.connect();
+// const socket = io('http://localhost:8000/', {
+//     transports: ['websocket'], jsonp: false
+// });
+// socket.connect();
 
 function Order(props) {
     const [filter, setFilter] = useState({
@@ -41,13 +41,13 @@ function Order(props) {
     useEffect(() => {
 
         //Nhận dữ liệu từ server gửi lên thông qua socket với key receive_order
-        socket.on('receive_order', (data) => {
-            setNote(data)
+        // socket.on('receive_order', (data) => {
+        //     setNote(data)
 
-            setTimeout(() => {
-                window.location.reload()
-            }, 4000)
-        })
+        //     setTimeout(() => {
+        //         window.location.reload()
+        //     }, 4000)
+        // })
 
 
     }, [])

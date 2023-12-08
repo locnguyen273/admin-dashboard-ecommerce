@@ -21,12 +21,12 @@ function User(props) {
     useEffect(() => {
         const query = '?' + queryString.stringify(filter)
 
-        const fetchAllData = async () => {
-            const response = await userAPI.getAPI(query)
-            setUsers(response.users)
-            setTotalPage(response.totalPage)
-        }
-        fetchAllData()
+        // const fetchAllData = async () => {
+        //     const response = await userAPI.getAPI(query)
+        //     setUsers(response.users)
+        //     setTotalPage(response.totalPage)
+        // }
+        // fetchAllData()
     }, [filter])
 
 

@@ -1,18 +1,27 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory, Redirect } from "react-router-dom";
 import isEmpty from "validator/lib/isEmpty";
 import { useForm } from "react-hook-form";
-
-import userAPI from "../Api/userAPI";
-import { AuthContext } from "../context/Auth";
+import { UserService } from "../../services/userService";
+import { saveStringLocal } from "../../utils/config";
+import { USER_LOGIN } from "../../utils/constant";
+import { AuthContext } from "../../context/authContext";
 
 function Login(props) {
-  const { addLocal, jwt, user } = useContext(AuthContext);
+  const { jwt, user } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validationMsg, setValidationMsg] = useState("");
   const { handleSubmit } = useForm();
   let history = useHistory();
+
+  useEffect(() => {
+    if (jwt && user && user.role === "admin") {
+      return <Redirect to="/user" />;
+    } else if (jwt && user && user.role === "user") {
+      return <Redirect to="/customer" />;
+    }
+  }, [jwt, user]);
 
   const validateAll = () => {
     let msg = {};
@@ -27,38 +36,24 @@ function Login(props) {
     return true;
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     const isValid = validateAll();
     if (!isValid) return;
-    login();
-  };
-
-  const login = async () => {
-    const user = {
-      email: email,
-      password: password,
-    };
-    const response = await userAPI.login(user);
-    console.log(response);
-
-    if (response.msg === "Đăng nhập thành công") {
-      if (response.user.id_permission.permission === "Nhân Viên") {
-        addLocal(response.jwt, response.user);
-        history.push("/customer");
-      } else if (response.user.id_permission.permission === "Admin") {
-        addLocal(response.jwt, response.user);
+    
+    const user = { email: email, password: password };
+    const response = await UserService.AdminLoginService(user);
+    if (response.status === 200) {
+      if (response.data.data.role === "admin") {
         history.push("/user");
+        saveStringLocal(USER_LOGIN, JSON.stringify(response.data.data));
+      } else if (response.data.data.role === "user") {
+        saveStringLocal(USER_LOGIN, JSON.stringify(response.data.data));
+        history.push("/customer");
       } else {
         setValidationMsg({ api: "Bạn không có quyền truy cập" });
       }
-    } else setValidationMsg({ api: response.msg });
+    }
   };
-
-  if (jwt && user && user.id_permission.permission === "Nhân Viên") {
-    return <Redirect to="/customer" />;
-  } else if (jwt && user && user.id_permission.permission === "Admin") {
-    return <Redirect to="/user" />;
-  }
 
   return (
     <div
